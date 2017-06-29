@@ -1,0 +1,57 @@
+.home .thumbnail:hover{
+	border-color: red;
+}
+
+.home .thumbnail:focus{
+	border-color: grey;
+}
+.form-horizontal .control-label {
+	text-align: left;
+}
+.home .col-sm-offset-2{
+	margin-left: 10%;
+}
+.home .modal-title{
+	text-align: center;
+	color: white;
+}
+.home .modal-header{
+	background-color: #c10707;
+}
+.logcheck{
+	padding-left: 50px;
+	padding-right: 0px;
+}
+.home .modal-footer.first{
+	text-align: center;
+}
+.home .modal-footer .fa-2x{
+	margin-right: 10px;
+}
+.modal-footer .twitter{
+	color: #00daff;
+}
+.bord{
+	margin-bottom: 10px;
+}
+.brd{
+	padding-top: 5px;
+    padding-bottom: 5px;
+}
+.modal-footer .google-plus{
+	color: #c10707;
+}
+.modal-footer .odnoklassniki{
+	color: #ff4900;
+}
+.login{
+	margin-right: 80px;
+    margin-left: 80px;
+}
+.btn-danger{
+	background-color: #c10707;
+}
+.rw{
+	margin-right: 0px;
+    margin-left: 0px;
+}

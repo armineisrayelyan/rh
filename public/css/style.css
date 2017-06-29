@@ -1,0 +1,185 @@
+.main{
+    background-color: cornflowerblue;
+    padding: 11px;
+}
+.topname{
+    float: left;
+    margin-left: 50px;
+}
+.titlename{
+    margin-bottom: 0px;
+    margin-top: 0px;
+    color: white;
+
+}
+.reglog{
+    padding-top: 8px;
+    padding-bottom: 8px;
+    text-align: end;
+    margin-right: 66px;
+}
+.topbuttons{
+    background-color: #fff;
+    font-weight: bold;
+    padding: 7px 10px;
+    display: inline;
+    border-radius: 3px;
+    margin-right: 6px;
+}
+.ateg{
+    text-decoration: none;
+    color: darkblue;
+}
+.ateg:hover{
+    color: #537bb4;
+}
+
+.form-horizontal .control-label {
+    text-align: left;
+}
+.home .col-sm-offset-2{
+    margin-left: 10%;
+}
+.home .modal-title{
+    text-align: center;
+    color: white;
+}
+.home .modal-header{
+    background-color: #2196f3;
+}
+.logcheck{
+    padding-left: 100px;
+    padding-right: 0px;
+}
+.home .modal-footer.first{
+    text-align: center;
+}
+.home .modal-footer .fa-2x{
+    margin-right: 10px;
+}
+.modal-footer .twitter{
+    color: #00daff;
+}
+
+.modal-footer .google-plus{
+    color: #c10707;
+}
+.modal-footer .odnoklassniki{
+    color: #ff4900;
+}
+.login{
+    margin-right: 80px;
+    margin-left: 80px;
+}
+.searchbox{
+    background-color: #39caff;
+    margin-top: 1px;
+    border-radius: 4px;
+}
+.searchlable{
+    font-size: 17px;
+}
+#searchitem{
+    background-image: url(/public/image/searchicon.png);
+    background-repeat: no-repeat;
+    padding: 8px 14px 8px 40px;
+    background-position: 6px 4px;
+    background-size: 23px;
+    border-style: hidden;
+    border-top: 1px solid #ddd;
+    width: 97%;
+}
+.date{
+    margin-top: 12px;
+}
+.marginlable{
+    margin-left: 12px;
+}
+#checkin{
+    background-repeat: no-repeat;
+    padding: 8px 14px 8px 8px;
+    border-style: hidden;
+    width: 86%;
+}
+#checkout{
+    background-repeat: no-repeat;
+    padding: 8px 14px 8px 8px;
+    border-style: hidden;
+    width: 86%;
+}
+.calendar{
+    background-color: white;
+    width: 94%;
+}
+.icon{
+    margin-left: 11px;
+}
+.chekinout{
+    margin-left: 0px;
+    margin-right: 0px;
+}
+.checkinoutlable{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.searchbutton{
+    margin-top: 34px;
+    text-align: right;
+    margin-right: 16px;
+    padding-bottom: 17px;
+}
+.calendarsearch{
+    background-color: white;
+    width: 97%;
+}
+.location{
+    margin-top: 12px;
+}
+.booking{
+    text-align: right;
+}
+.titl{
+    color: white;
+}
+.booking a:hover{
+    color: white;
+    text-decoration: none;
+}
+.booking a{
+    color: white;
+}
+.userplace{
+    background-color: rgba(0, 150, 134, 0.17);
+}
+.userlogin{
+    text-align: center;
+}
+.pay{
+    font-size: 17px;
+}
+.detaildesc{
+    background-color: rgba(158, 158, 158, 0.33);
+}
+.hotelname{
+    font-size: 25px;
+    text-align: center;
+    color: rgb(33, 150, 243);
+    margin-right: 27px;
+}
+.icons{
+    text-align: center;
+    color: rgb(33, 150, 243);
+}
+.wf{
+    margin-right: 15px;
+}
+.chboxicons{
+    color: rgb(33, 150, 243);
+}
+.checkin{
+    margin-left: 0px;
+}
+.adminka{
+    text-align: right;
+    color: blue;
+}
