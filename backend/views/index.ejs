@@ -22,7 +22,7 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/public/bootstrap.js"></script>
 <script>
-    var sessionUser = <%- JSON.stringify(user); %>
+    var sessionUser = <%- JSON.stringify(user || null); %>
 </script>
 <script src="/public/main.js"></script>
 </body>

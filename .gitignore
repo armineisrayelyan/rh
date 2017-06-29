@@ -12,3 +12,4 @@ out
 src/test
 store/*
 lib/test
+public/main.js

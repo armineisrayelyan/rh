@@ -9,7 +9,7 @@ let con = mysql.createPool({
     connectionLimit: 50,
     host: "localhost",
     user: "root",
-    password: "",
+    password: "123456",
     database: "hotelList"
 });
 
@@ -67,9 +67,12 @@ app.get('/ajax/data/detail/:id', (req, res)=>{
     });
 });
 
-function getSessionUser(req){
+app.get('/login',(req:any,res:any)=>{
+    // req.session.user =user;
+    // req.session.save();
+    // res.redirect('/')
 
-}
+});
 
 app.get('*', (req:any, res)=>{
     res.render('index',{user:req.session.user});

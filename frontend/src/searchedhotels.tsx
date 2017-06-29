@@ -8,7 +8,7 @@ export class SearchedHotels extends Component<any,any>{
         params.forEach((v,k)=>{
             query[k] = v;
         });
-
+        console.log(query)
     }
     private collection = [];
     state = {
