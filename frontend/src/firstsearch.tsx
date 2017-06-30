@@ -52,7 +52,34 @@ export class FirstSearch extends Component<any,any>{
                         </div>
                     </div>
                     <div className="col-sm-6">
-
+                        {
+                            (()=>{
+                               if((window as any).sessionUser){
+                                   let user = (window as any).sessionUser;
+                                   return (
+                                       <div className="userplace">
+                                           <p className="userlogin">
+                                               {`${user.firstname} ${user.lastname}`}
+                                           </p>
+                                           <div className="row">
+                                               <div className="col-md-3">
+                                               </div>
+                                               <div className="col-md-9">
+                                                   <p>
+                                                       Your last booking :
+                                                   </p>
+                                                   <p>
+                                                       <a href="javascript:;" className="pay">Pay</a>
+                                                       for new bookin
+                                                   </p>
+                                                   <p>New booking :</p>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   )
+                               }
+                            })()
+                        }
                     </div>
                 </div>
 

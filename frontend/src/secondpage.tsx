@@ -13,9 +13,8 @@ export class SecondPage extends Component<any,any>{
                 <Header />
                 <div className="container">
                     <div className="row">
-                        <SecondSearch />
-
-                        <SearchedHotels params = {new URLSearchParams(this.props.location.search)}/>
+                        <SecondSearch/>
+                        <SearchedHotels/>
                     </div>
                 </div>
 

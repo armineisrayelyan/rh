@@ -3,6 +3,8 @@ import * as mysql from 'mysql';
 import * as bodyParser from 'body-parser';
 import * as path from 'path';
 import * as session from 'express-session';
+import * as crypto from 'crypto';
+
 
 
 let con = mysql.createPool({
@@ -35,17 +37,6 @@ app.get('/ajax/data', (req:any, res)=>{
             tempCont.query('SELECT * FROM hotels order by updated desc limit 6',(err,rows)=>{
                 if(err) throw err;
                 else {
-                    /*let user = Window.user;
-                    if(req.session.userId){
-                        return tempCont.query('SELECT * FROM users where id=?',[req.session.userId],(err,users)=>{
-                            if(err) throw err;
-                            else {
-                                user = users[0];
-                                res.json(rows);
-                                res.render('index',{user:user});
-                            }
-                        })
-                    }*/
                     res.json(rows);
                 }
             })
@@ -66,11 +57,69 @@ app.get('/ajax/data/detail/:id', (req, res)=>{
         }
     });
 });
+app.get( "/ajax/data/searched",(req,res)=>{
+    let body = req.query;
+    con.getConnection((err,tempCont)=>{
+        if(err) throw  err;
+        let q = `%${body.q}%`;
+        let query = "SELECT * FROM hotels WHERE (name LIKE ? OR location LIKE ?)";
+        let args = [q,q];
+        if(body.breakfast){
+            query += 'AND breakfast=?';
+            args.push(body.breakfast);
+        }
+        if(body.pool) {
+            query+= 'AND pool=?';
+            args.push(body.pool);
+        }
+        if( body.fitness  ){
+            query+= ' AND fitness=?';
+            args.push(body.fitness);
+        }
+        if(body.roomservice) {
+            query+= 'AND roomservice=?';
+            args.push(body.roomservice);
+        }
+        if(body.hairdryer) {
+            query+= 'AND hairdryer=?';
+            args.push(body.hairdryer);
+        }
+        if(body.laundry) {
+            query+= 'AND laundry=?';
+            args.push(body.laundry);
+        }
+        if(body.fax) {
+            query+= 'AND fax=?';
+            args.push(body.fax);
+        }
 
-app.get('/login',(req:any,res:any)=>{
+        tempCont.query(query,args,(err,rows)=>{
+            if(err) throw err;
+            res.json(rows)
+        })
+
+    })
+});
+
+app.post('/login',(req:any,res:any)=>{
     // req.session.user =user;
     // req.session.save();
     // res.redirect('/')
+    let body = req.body;
+    con.getConnection((err, tempCont)=> {
+        if(err) throw  err;
+        let query = 'SELECT * FROM users WHERE email = ? AND password = ?';
+        let user = [body.email,crypto.createHash('md5').update(body.password).digest("hex")];
+        tempCont.query(query, user, (err,rows)=> {
+            if(err) throw err;
+            req.session.user = rows[0];
+            console.log(rows[0])
+            res.redirect('/');
+
+        });
+
+
+    });
 
 });
 
