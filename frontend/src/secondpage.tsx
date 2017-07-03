@@ -13,12 +13,12 @@ export class SecondPage extends Component<any,any>{
                 <Header />
                 <div className="container">
                     <div className="row">
-                        <SecondSearch/>
-                        <SearchedHotels/>
+                        <SecondSearch  navigator = {this.props.history.push}/>
+                        <SearchedHotels search={window.location.search}/>
                     </div>
                 </div>
-
             </div>
         )
     }
 }
+

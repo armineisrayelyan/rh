@@ -5,7 +5,7 @@ export class FirstSearch extends Component<any,any>{
     handleSubmit = (e) =>{
         e.preventDefault();
         this.props.navigator(`/search?q=${(document.getElementById('searchitem') as any).value}`);
-    }
+    };
     render(){
         return(
             <div className="container">

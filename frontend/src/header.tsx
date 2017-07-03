@@ -15,9 +15,17 @@ export class Header extends Component<any,any>{
                         </h1>
                     </div>
                     <div className="reglog">
-                        <div className="topbuttons">
-                            <a className="ateg" href="" data-toggle="modal" data-target="#RegistrationModal">Registration</a>
-                        </div>
+                        {
+                            (()=>{
+                                if(!(window as any).sessionUser){
+                                    return(
+                                        <div className="topbuttons">
+                                            <a className="ateg" href="" data-toggle="modal" data-target="#RegistrationModal">Registration</a>
+                                        </div>
+                                    )
+                                }
+                            })()
+                        }
                         <div className="topbuttons">
                             {
                                 (()=>{

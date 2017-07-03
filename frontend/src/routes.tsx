@@ -11,7 +11,9 @@ export class Routes extends Component<any,any>{
             <switch>
                 <Route exact path='/' component={FirstPage}/>
                 <Route exact path='/detail/:id' component={DetailPage}/>
-                <Route exact path='/search' component={SecondPage}/>
+                <Route exact path='/search' component={props => {
+                    return <SecondPage {...props} />
+                }}/>
             </switch>
         )
     }

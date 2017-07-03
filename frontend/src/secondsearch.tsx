@@ -2,12 +2,23 @@ import * as React from 'react';
 import {Component} from 'react';
 
 export class SecondSearch extends Component<any,any>{
+    handleSubmit = (e) =>{
+        e.preventDefault();
+        let data:any = new FormData(document.getElementById('searchForm') as any);
+        let q = [];
+        data.forEach((v,k)=>{
+            q.push(`${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
+        });
+
+        this.props.navigator(`/search?${q.join('&')}`);
+
+    };
     render (){
         return(
 
                     <div className="col-sm-4">
                         <div className="searchbox">
-                            <form method="get" action="/search">
+                            <form id="searchForm" onSubmit={this.handleSubmit}>
                                 <div className="marginlable" >
                                     <label className="searchlable">
                                         Destination, property name or address:

@@ -113,14 +113,28 @@ app.post('/login',(req:any,res:any)=>{
         tempCont.query(query, user, (err,rows)=> {
             if(err) throw err;
             req.session.user = rows[0];
-            console.log(rows[0])
+            console.log(rows[0]);
             res.redirect('/');
 
         });
-
-
     });
+});
 
+app.post('/registration',(req,res)=>{
+    let body = req.body;
+    con.getConnection((err, tempCont)=> {
+        if(err) throw  err;
+        else {
+            let user = { firstname: body.firstname, lastname: body.lastname, email: body.email, password: crypto.createHash('md5').update(body.password).digest("hex")};
+            tempCont.query('INSERT INTO users SET ?', user, (err,resp)=> {
+                tempCont.release();
+                if(err) throw err;
+                else {
+                    res.redirect("/");
+                }
+            });
+        }
+    });
 });
 
 app.get('*', (req:any, res)=>{

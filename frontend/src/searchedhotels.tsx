@@ -4,7 +4,14 @@ import { BrowserRouter,Route,Switch,Redirect,Link} from 'react-router-dom';
 import {json} from "body-parser";
 
 export class SearchedHotels extends Component<any,any>{
+
     componentDidMount(){
+        this.request();
+    }
+    componentWillReceiveProps(){
+        this.request();
+    }
+    request(){
         let xhttp = new XMLHttpRequest();
         let self = this;
         xhttp.onreadystatechange = function () {
@@ -15,7 +22,7 @@ export class SearchedHotels extends Component<any,any>{
                 })
             }
         };
-        xhttp.open("GET", `ajax/data/searched${window.location.search}`, true);
+        xhttp.open("GET", `ajax/data/searched${this.props.search}`, true);
         xhttp.send();
     }
     private hotels = [];
