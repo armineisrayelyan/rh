@@ -106,6 +106,7 @@ app.post('/login',(req:any,res:any)=>{
     // req.session.save();
     // res.redirect('/')
     let body = req.body;
+    console.log(body.redirect);
     con.getConnection((err, tempCont)=> {
         if(err) throw  err;
         let query = 'SELECT * FROM users WHERE email = ? AND password = ?';
@@ -113,9 +114,7 @@ app.post('/login',(req:any,res:any)=>{
         tempCont.query(query, user, (err,rows)=> {
             if(err) throw err;
             req.session.user = rows[0];
-            console.log(rows[0]);
-            res.redirect('/');
-
+            res.redirect(body.redirect);
         });
     });
 });
@@ -135,6 +134,10 @@ app.post('/registration',(req,res)=>{
             });
         }
     });
+});
+app.get('/logout',(req:any,res)=>{
+    req.session.destroy();
+    res.redirect("/");
 });
 
 app.get('*', (req:any, res)=>{

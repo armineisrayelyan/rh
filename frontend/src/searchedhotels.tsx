@@ -57,7 +57,18 @@ export class SearchedHotels extends Component<any,any>{
                                     </div>
                                     <div className="booking">
                                         <button type="button" id="booking" className="btn btn-primary">
-                                        <a href="" data-toggle="modal" data-target="#LoginModal">to book</a>
+                                            {
+                                                (()=>{
+                                                    if(!(window as any).sessionUser){
+                                                        return (
+                                                            <a href="" data-toggle="modal" data-target="#LoginModal">to book</a>
+                                                        )
+                                                    }
+                                                    return (
+                                                        <a href="javascript:;">to book</a>
+                                                    )
+                                                })()
+                                            }
                                         </button>
                                     </div>
                                 </div>

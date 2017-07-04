@@ -3,6 +3,7 @@ import {Component} from 'react';
 import { BrowserRouter,Route,Switch,Redirect,Link} from 'react-router-dom';
 
 export class Header extends Component<any,any>{
+
     render(){
         return(
             <div>
@@ -30,7 +31,7 @@ export class Header extends Component<any,any>{
                             {
                                 (()=>{
                                    if((window as any).sessionUser){
-                                       return <a className="ateg" href="" data-toggle="modal" data-target="#LoginModal">Log out</a>
+                                       return <a className="ateg" href="/logout">Log out</a>
                                    }
                                    return <a className="ateg" href="" data-toggle="modal" data-target="#LoginModal">Log in</a>
                                 })()
@@ -49,6 +50,7 @@ export class Header extends Component<any,any>{
                                 <div className="modal-body">
 
                                     <form className="form-horizontal"  role="form" method="post" action="/login">
+                                        <input type="hidden" name="redirect" value={window.location.href} />
                                         <div className="form-group">
                                             <label htmlFor ="email" className="control-label col-sm-4">Email or Phone</label>
                                             <div className="col-sm-12">
