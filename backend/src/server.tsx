@@ -106,7 +106,6 @@ app.post('/login',(req:any,res:any)=>{
     // req.session.save();
     // res.redirect('/')
     let body = req.body;
-    console.log(body.redirect);
     con.getConnection((err, tempCont)=> {
         if(err) throw  err;
         let query = 'SELECT * FROM users WHERE email = ? AND password = ?';
@@ -138,6 +137,53 @@ app.post('/registration',(req,res)=>{
 app.get('/logout',(req:any,res)=>{
     req.session.destroy();
     res.redirect("/");
+});
+
+app.get('/admin/login',(req:any,res)=>{
+    if( req.session.admin){
+        return res.redirect('/admin');
+    }
+    res.render('adminlogin');
+});
+app.use('/admin',function (req:any,res,next) {
+    if( !req.session.admin){
+        res.redirect('/admin/login')
+    }else{
+        next();
+    }
+});
+
+app.post('/admin/login',(req:any,res:any)=>{
+    let body = req.body;
+    con.getConnection((err, tempCont)=> {
+        if(err) throw  err;
+        let query = 'SELECT * FROM users WHERE email = ? AND password = ? AND admin = 1';
+        let user = [body.email,crypto.createHash('md5').update(body.password).digest("hex")];
+        tempCont.query(query, user, (err,rows)=> {
+            if(err) throw err;
+            if( !rows.length ){
+                res.redirect('/admin/login');
+            }
+            req.session.admin = rows[0];
+            res.redirect('/admin',{admin:req.session.admin});
+        });
+    });
+});
+
+
+
+app.get('/ajax/data/admin',(req,res)=>{
+    con.getConnection((err, tempCont)=> {
+        if(err) throw err;
+        else {
+            tempCont.query('SELECT * FROM hotels ',(err,rows)=>{
+                if(err) throw err;
+                else {
+                    res.json(rows);
+                }
+            })
+        }
+    });
 });
 
 app.get('*', (req:any, res)=>{
