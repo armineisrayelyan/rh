@@ -14,7 +14,7 @@ export class DBTable extends Component<any,any>{
                 })
             }
         };
-        xhttp.open("GET", "ajax/data/admin", true);
+        xhttp.open("GET", "ajax/data/table", true);
         xhttp.send();
     }
 
