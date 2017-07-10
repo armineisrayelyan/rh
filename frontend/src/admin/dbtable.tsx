@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react';
+import {Link} from 'react-router-dom';
 
 export class DBTable extends Component<any,any>{
 
@@ -50,20 +51,22 @@ export class DBTable extends Component<any,any>{
                             this.state.list.map((item,i)=>{
                                 return(
                                     <tr key={item.id || i}>
-                                        <td>item.name</td>
+                                        <td>{item.name}</td>
                                         <td><img src={`/public/uploads/${item.image}`} style={{height:150}} /></td>
-                                        <td>item.description</td>
-                                        <td>item.location</td>
-                                        <td>item.hairdryer</td>
-                                        <td>item.breakfast</td>
-                                        <td>item.fax</td>
-                                        <td>item.pool</td>
-                                        <td>item.fitness</td>
-                                        <td>item.roomservice</td>
-                                        <td>item.laundry</td>
-                                        <td><a href="/admin/edit/<%- e.id%>" className="btn btn-primary">edit</a></td>
+                                        <td>{item.description}</td>
+                                        <td>{item.location}</td>
+                                        <td>{item.hairdryer}</td>
+                                        <td>{item.breakfast}</td>
+                                        <td>{item.fax}</td>
+                                        <td>{item.pool}</td>
+                                        <td>{item.fitness}</td>
+                                        <td>{item.roomservice}</td>
+                                        <td>{item.laundry}</td>
                                         <td>
-                                            <form action="/admin/delete/<%- e.id%>" method="post">
+                                            <Link to={`/admin/edit/${item.id}`} className="btn btn-primary">edit</Link>
+                                        </td>
+                                        <td>
+                                            <form action={`/admin/delete/${item.id}`} method="post">
                                                 <button className="btn btn-danger">delete</button>
                                             </form>
                                         </td>

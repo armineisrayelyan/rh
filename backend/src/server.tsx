@@ -147,7 +147,6 @@ app.get('/admin/login',(req:any,res)=>{
 });
 app.post('/admin/login',(req:any,res:any)=>{
     let body = req.body;
-    console.log(body)
     con.getConnection((err, tempCont)=> {
         if(err) throw  err;
         let query = 'SELECT * FROM users WHERE email = ? AND password = ? AND admin = 1';

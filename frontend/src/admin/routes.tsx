@@ -3,6 +3,9 @@ import { BrowserRouter,Route,Switch,Redirect,Link} from 'react-router-dom';
 import {Component} from 'react';
 import {MainPage} from './mainpage'
 import {FirstPage} from '../firstpage'
+import {DetailPage} from '../detailpage'
+import {SecondPage} from '../secondpage'
+import {EditPage} from './editpage'
 
 export class Routes extends Component<any,any>{
     render(){
@@ -10,6 +13,11 @@ export class Routes extends Component<any,any>{
             <switch>
                 <Route exact path='/admin' component={MainPage}/>
                 <Route exact path='/' component={FirstPage}/>
+                <Route exact path='/detail/:id' component={DetailPage}/>
+                <Route exact path='/search' component={props => {
+                    return <SecondPage {...props} />
+                }}/>
+                <Route exact path="/admin/edit/:id" component={EditPage}/>
             </switch>
         )
     }
