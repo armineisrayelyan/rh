@@ -4,6 +4,11 @@ import * as bodyParser from 'body-parser';
 import * as path from 'path';
 import * as session from 'express-session';
 import * as crypto from 'crypto';
+import * as multipart from 'connect-multiparty';
+import * as fs from 'fs';
+
+
+let  multipartMiddleware = multipart({uploadDir: 'public/uploads/'});
 
 
 
@@ -171,6 +176,9 @@ app.use('/admin',function (req:any,res,next) {
 app.get('/admin',function (req:any,res) {
     res.render('admin',{admin:req.session.admin})
 });
+app.get('/admin/*',function (req:any,res) {
+    res.render('admin',{admin:req.session.admin})
+});
 
 
 app.get('/ajax/data/table',(req,res)=>{
@@ -183,6 +191,63 @@ app.get('/ajax/data/table',(req,res)=>{
                     res.json(rows);
                 }
             })
+        }
+    });
+});
+app.post('/create',multipartMiddleware,(req:any,res)=>{
+    let body = req.body;
+    con.getConnection((err,tempCont)=>{
+        if (err) throw err;
+        else {
+            let hotel:any = {name:body.name,location:body.location,description:body.description,text:body.text,image:path.basename(req.files.image.path)}
+            if(body.breakfast){
+                hotel.breakfast = body.breakfast;
+            }
+            if(body.pool) {
+                hotel.pool = body.pool;
+            }
+            if(body.fitness) {
+                hotel.fitness = body.fitness;
+            }
+            if(body.roomservice) {
+                hotel.roomservice = body.roomservice;
+            }
+            if(body.hairdryer) {
+                hotel.hairdryer = body.hairdryer;
+            }
+            if(body.fax) {
+                hotel.fax = body.fax;
+            }
+            if(body.laundry) {
+                hotel.laundry = body.laundry;
+            }
+            tempCont.query('Insert into hotels SET ?',hotel,(err,resp)=>{
+                tempCont.release();
+                if(err) throw err;
+                else {
+                    console.log('Last inserted id ' + resp.insertId);
+                    res.redirect('/admin');
+                }
+            })
+        }
+    })
+});
+
+app.delete('/ajax/data/delete/:id',(req, res)=> {
+    con.getConnection((err, tempCont)=> {
+        if(err) throw  err;
+        else {
+            tempCont.query('Select image from hotels where id = ?',[req.params.id],(err,resp)=>{
+                if(err) throw err;
+                tempCont.query('DELETE FROM hotels WHERE id = ?',
+                    [req.params.id], (err,result)=> {
+                        if(err) throw err;
+                        console.log(resp[0])
+                        fs.unlinkSync(path.join(__dirname,`../../public/uploads/${resp[0].image}`));
+                        res.json(resp[0]);
+                    });
+            })
+
         }
     });
 });

@@ -6,6 +6,7 @@ import {FirstPage} from '../firstpage'
 import {DetailPage} from '../detailpage'
 import {SecondPage} from '../secondpage'
 import {EditPage} from './editpage'
+import {AddPage} from './addpage'
 
 export class Routes extends Component<any,any>{
     render(){
@@ -18,6 +19,7 @@ export class Routes extends Component<any,any>{
                     return <SecondPage {...props} />
                 }}/>
                 <Route exact path="/admin/edit/:id" component={EditPage}/>
+                <Route exact path="/admin/add" component={AddPage}/>
             </switch>
         )
     }

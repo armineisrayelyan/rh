@@ -2,7 +2,7 @@ import * as React from 'react'
 import {Component} from 'react'
 
 export interface EditProp {
-    id : number | string
+    hotel : EditHotel
 }
 export interface EditHotel{
     name?:string
@@ -23,41 +23,24 @@ export interface EditState{
 }
 
 export class EditDeck extends Component<EditProp,EditState>{
-    componentDidMount(){
-        let id = this.props.id;
-        let xhttp = new XMLHttpRequest();
-        let self = this;
-        xhttp.onreadystatechange = function () {
-            if(this.readyState == 4 && this.status == 200){
-                let hotel = JSON.parse(this.responseText);
-                self.setState({
-                    hotel : hotel
-                })
-            }
-        };
-        xhttp.open("GET", `/ajax/data/detail/${id}`, true);
-        xhttp.send();
-    }
-    state = {
-        hotel : {}
-    };
+
     render(){
-        let hotel:EditHotel = this.state.hotel;
+        let hotel:EditHotel = this.props.hotel;
         return(
-            <div className="container">
+            <div className="container-fluid">
                 <div className="row">
                     <form action="/update/<%- data.id%>" method="post" className="form-horizontal" encType="multipart/form-data">
                         <div className="col-sm-4">
                             <div className="form-group">
                                 <label className="control-label col-sm-3" htmlFor="name">Name:</label>
                                 <div className="col-sm-9">
-                                    <input type="text" name="name" className="form-control" id="name" value={hotel.name} />
+                                    <input type="text" name="name" className="form-control" id="name"  defaultValue={hotel.name} />
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="control-label col-sm-3" htmlFor="location">Location:</label>
                                 <div className="col-sm-9">
-                                    <input type="text" name="location" className="form-control" id="location" value={hotel.location} />
+                                    <input type="text" name="location" className="form-control" id="location" defaultValue={hotel.location} />
                                 </div>
                             </div>
                             <div className="form-group">
@@ -73,7 +56,7 @@ export class EditDeck extends Component<EditProp,EditState>{
                                         {
                                             (()=>{
                                                 if(hotel.breakfast == 1){
-                                                    return <label><input type="checkbox" value="1" name="breakfast" checked />Breakfast</label>
+                                                    return <label><input type="checkbox" value="1" name="breakfast" defaultChecked />Breakfast</label>
                                                 }else {
                                                     return <label><input type="checkbox" value="1" name="breakfast" />Breakfast</label>
                                                 }
@@ -84,7 +67,7 @@ export class EditDeck extends Component<EditProp,EditState>{
                                         {
                                             (()=>{
                                                 if(hotel.pool == 1){
-                                                    return <label><input type="checkbox" value="1" name="pool" checked />Indoor pool</label>
+                                                    return <label><input type="checkbox" value="1" name="pool" defaultChecked />Indoor pool</label>
                                                 }else {
                                                     return <label><input type="checkbox" value="1" name="pool" />Indoor pool</label>
                                                 }
@@ -95,7 +78,7 @@ export class EditDeck extends Component<EditProp,EditState>{
                                         {
                                             (()=>{
                                                 if(hotel.fitness == 1){
-                                                    return <label><input type="checkbox" value="1" name="fitness" checked/>Fitness</label>
+                                                    return <label><input type="checkbox" value="1" name="fitness" defaultChecked/>Fitness</label>
                                                 }else {
                                                     return <label><input type="checkbox" value="1" name="fitness"/>Fitness</label>
                                                 }
@@ -106,7 +89,7 @@ export class EditDeck extends Component<EditProp,EditState>{
                                         {
                                             (()=>{
                                                 if(hotel.fax == 1){
-                                                    return <label><input type="checkbox" value="1" name="fax" checked/>Fax/photocopying</label>
+                                                    return <label><input type="checkbox" value="1" name="fax" defaultChecked/>Fax/photocopying</label>
                                                 }else {
                                                     return <label><input type="checkbox" value="1" name="fax"/>Fax/photocopying</label>
                                                 }
@@ -119,7 +102,7 @@ export class EditDeck extends Component<EditProp,EditState>{
                                         {
                                             (()=>{
                                                 if(hotel.roomservice == 1){
-                                                    return <label><input type="checkbox" value="1" name="roomservice" checked/>Room service</label>
+                                                    return <label><input type="checkbox" value="1" name="roomservice" defaultChecked/>Room service</label>
                                                 }else {
                                                     return <label><input type="checkbox" value="1" name="roomservice"/>Room service</label>
                                                 }
@@ -130,7 +113,7 @@ export class EditDeck extends Component<EditProp,EditState>{
                                         {
                                             (()=>{
                                                 if(hotel.hairdryer == 1){
-                                                    return <label><input type="checkbox" value="1" name="hairdryer" checked/>Hairdryer</label>
+                                                    return <label><input type="checkbox" value="1" name="hairdryer" defaultChecked/>Hairdryer</label>
                                                 }else {
                                                     return <label><input type="checkbox" value="1" name="hairdryer"/>Hairdryer</label>
                                                 }
@@ -141,7 +124,7 @@ export class EditDeck extends Component<EditProp,EditState>{
                                         {
                                             (()=>{
                                                 if(hotel.laundry == 1){
-                                                    return  <label><input type="checkbox" value="1" name="laundry" checked/>Laundry</label>
+                                                    return  <label><input type="checkbox" value="1" name="laundry" defaultChecked/>Laundry</label>
                                                 }else {
                                                     return <label><input type="checkbox" value="1" name="laundry"/>Laundry</label>
                                                 }
@@ -155,13 +138,13 @@ export class EditDeck extends Component<EditProp,EditState>{
                             <div className="form-group">
                                 <label className="control-label col-sm-2" htmlFor="text">text:</label>
                                 <div className="col-sm-10">
-                                    <textarea  name="text" className="form-control" id="text" rows={6} value={hotel.text} />
+                                    <textarea  name="text" className="form-control" id="text" rows={6} defaultValue={hotel.text} />
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="control-label col-sm-2" htmlFor="text">description:</label>
                                 <div className="col-sm-10">
-                                    <textarea  name="description" className="form-control" id="description" rows={4} value={hotel.description}/>
+                                    <textarea  name="description" className="form-control" id="description" rows={4} defaultValue={hotel.description}/>
                                 </div>
                             </div>
                             <div className="col-sm-offset-11 col-sm-1">

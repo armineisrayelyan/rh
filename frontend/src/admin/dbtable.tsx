@@ -3,6 +3,22 @@ import {Component} from 'react';
 import {Link} from 'react-router-dom';
 
 export class DBTable extends Component<any,any>{
+    handleClick = (item)=>{
+        let id = item.id;
+        //e.preventDefault();
+        let xhttp = new XMLHttpRequest();
+        let self = this;
+        xhttp.onreadystatechange = function () {
+            if(this.readyState == 4 && this.status == 200){
+               self.state.list.splice(self.state.list.indexOf(item),1);
+               self.setState({
+                   list : self.state.list
+               });
+            }
+        };
+        xhttp.open("DELETE", `/ajax/data/delete/${id}`, true);
+        xhttp.send();
+    };
 
     componentDidMount(){
         let xhttp = new XMLHttpRequest();
@@ -28,6 +44,11 @@ export class DBTable extends Component<any,any>{
     render(){
         return(
             <div className="container-fluid">
+                <div className="row">
+                    <div className="col-sm-2">
+                        <Link to="/admin/add" className="btn btn-primary">Add hotels</Link>
+                    </div>
+                </div>
                 <table className="table table-bordered">
                     <thead>
                         <tr>
@@ -66,9 +87,9 @@ export class DBTable extends Component<any,any>{
                                             <Link to={`/admin/edit/${item.id}`} className="btn btn-primary">edit</Link>
                                         </td>
                                         <td>
-                                            <form action={`/admin/delete/${item.id}`} method="post">
-                                                <button className="btn btn-danger">delete</button>
-                                            </form>
+
+                                                <button className="btn btn-danger" onClick={() =>{this.handleClick(item)}}>delete</button>
+
                                         </td>
                                     </tr>
                                 )
