@@ -5,7 +5,6 @@ import {Link} from 'react-router-dom';
 export class DBTable extends Component<any,any>{
     handleClick = (item)=>{
         let id = item.id;
-        //e.preventDefault();
         let xhttp = new XMLHttpRequest();
         let self = this;
         xhttp.onreadystatechange = function () {
@@ -87,9 +86,7 @@ export class DBTable extends Component<any,any>{
                                             <Link to={`/admin/edit/${item.id}`} className="btn btn-primary">edit</Link>
                                         </td>
                                         <td>
-
-                                                <button className="btn btn-danger" onClick={() =>{this.handleClick(item)}}>delete</button>
-
+                                            <button className="btn btn-danger" onClick={() =>{this.handleClick(item)}}>delete</button>
                                         </td>
                                     </tr>
                                 )

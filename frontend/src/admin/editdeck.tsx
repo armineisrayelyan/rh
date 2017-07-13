@@ -17,6 +17,7 @@ export interface EditHotel{
     location?:string
     description?:string
     image?:any
+    id?:number
 }
 export interface EditState{
     hotel : EditHotel
@@ -29,7 +30,7 @@ export class EditDeck extends Component<EditProp,EditState>{
         return(
             <div className="container-fluid">
                 <div className="row">
-                    <form action="/update/<%- data.id%>" method="post" className="form-horizontal" encType="multipart/form-data">
+                    <form action={`/update/${hotel.id}`} method="post" className="form-horizontal" encType="multipart/form-data">
                         <div className="col-sm-4">
                             <div className="form-group">
                                 <label className="control-label col-sm-3" htmlFor="name">Name:</label>

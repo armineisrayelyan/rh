@@ -242,13 +242,80 @@ app.delete('/ajax/data/delete/:id',(req, res)=> {
                 tempCont.query('DELETE FROM hotels WHERE id = ?',
                     [req.params.id], (err,result)=> {
                         if(err) throw err;
-                        console.log(resp[0])
+                        console.log(resp[0]);
                         fs.unlinkSync(path.join(__dirname,`../../public/uploads/${resp[0].image}`));
+                        console.log('Deleted ' + result.affectedRows + ' rows');
                         res.json(resp[0]);
                     });
             })
 
         }
+    });
+});
+
+app.post('/update/:id',multipartMiddleware,(req:any,res)=>{
+    let body = req.body;
+    console.log(body)
+    console.log(req.params.id)
+    console.log (req.files.image.size)
+    let hotel:any = {name:body.name, location:body.location, description:body.description, text:body.text};
+    con.getConnection((err,tempCont)=>{
+        if(err) throw err;
+        tempCont.query('Select image from hotels where id = ?',[req.params.id],(err,resp)=>{
+            if (err) throw  err;
+            if(req.files.image.size > 0){
+                console.log(req.files.image.path)
+                hotel.image = path.basename(req.files.image.path);
+                fs.unlinkSync(path.join(__dirname,`../../public/uploads/${resp[0].image}`));
+            }else{
+                console.log(req.files.image.path)
+                hotel.image = resp[0].image;
+                fs.unlinkSync(req.files.image.path)
+            }
+            if(body.breakfast){
+                hotel.breakfast = body.breakfast;
+            }else{
+                hotel.breakfast = 0;
+            }
+            if(body.pool) {
+                hotel.pool = body.pool;
+            }else{
+                hotel.pool = 0;
+            }
+            if(body.fitness) {
+                hotel.fitness = body.fitness;
+            }else{
+                hotel.fitness = 0;
+            }
+            if(body.roomservice) {
+                hotel.roomservice = body.roomservice;
+            }else{
+                hotel.roomservice = 0;
+            }
+            if(body.hairdryer) {
+                hotel.hairdryer = body.hairdryer;
+            }else{
+                hotel.hairdryer = 0;
+            }
+            if(body.fax) {
+                hotel.fax = body.fax;
+            }else{
+                hotel.fax = 0;
+            }
+            if(body.laundry) {
+                hotel.laundry = body.laundry;
+            }else{
+                hotel.laundry = 0;
+            }
+            tempCont.query('Update hotels Set ? Where id = ?',[hotel,req.params.id],(err,result)=>{
+                tempCont.release();
+                if(err) throw err;
+                console.log('Changed ' + result.changedRows + ' rows');
+                res.redirect('/admin');
+            })
+
+        });
+
     });
 });
 

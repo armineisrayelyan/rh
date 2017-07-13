@@ -26,12 +26,13 @@ export class EditPage extends Component<any,any>{
         return(
             <div>
                 <Header />
+
                 {
                     (()=>{
-                        if( this.state.hotel != null ){
-                            return <EditDeck hotel={this.state.hotel}/>
-                        }
-                        return <div />
+                       if(this.state.hotel != null){
+                           return <EditDeck hotel ={this.state.hotel }/>
+                       }
+                       return <div />
                     })()
                 }
 
