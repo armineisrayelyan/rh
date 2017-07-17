@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watchify": "watchify ./frontend/out/main.js -o ./public/main.js -v",
+    "watchify": "watchify ./frontend/out/web/main.js -o ./public/main.js -v",
     "watchifyadmin": "watchify ./frontend/out/admin/admin.js -o ./public/admin.js -v"
   },
   "author": "Armine",

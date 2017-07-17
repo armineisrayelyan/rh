@@ -2,9 +2,9 @@ import * as React from 'react';
 import { BrowserRouter,Route,Switch,Redirect,Link} from 'react-router-dom';
 import {Component} from 'react';
 import {MainPage} from './mainpage'
-import {FirstPage} from '../firstpage'
-import {DetailPage} from '../detailpage'
-import {SecondPage} from '../secondpage'
+import {FirstPage} from '../web/components/firstpage'
+import {DetailPage} from '../web/components/detailpage'
+import {SecondPage} from '../web/components/secondpage'
 import {EditPage} from './editpage'
 import {AddPage} from './addpage'
 

@@ -39,7 +39,25 @@ app.get('/ajax/data', (req:any, res)=>{
         if(err) throw err;
         else {
             console.log('Connected!');
-            tempCont.query('SELECT * FROM hotels order by updated desc limit 6',(err,rows)=>{
+            tempCont.query('SELECT * FROM hotels',(err,data)=>{
+                if(err) throw err;
+                tempCont.query('SELECT * FROM hotels order by updated desc limit 6',(err,rows)=>{
+                    if(err) throw err;
+                    else {
+                        res.json({data:data,hotels:rows});
+                    }
+                })
+            });
+
+        }
+    });
+});
+app.get('/ajax/data/all', (req:any, res)=>{
+    let skip = req.query.skip;
+    con.getConnection((err, tempCont)=> {
+        if(err) throw err;
+        else {
+            tempCont.query(`SELECT * FROM hotels order by updated desc limit ${skip},6`,(err,rows)=>{
                 if(err) throw err;
                 else {
                     res.json(rows);
@@ -48,6 +66,7 @@ app.get('/ajax/data', (req:any, res)=>{
         }
     });
 });
+
 app.get('/ajax/data/detail/:id', (req, res)=>{
     let id = req.params.id;
     con.getConnection((err, tempCont)=> {
