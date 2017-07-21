@@ -125,7 +125,7 @@ app.get( "/ajax/data/searched",(req,res)=>{
     })
 });
 
-app.post('/login',(req:any,res:any)=>{
+app.post('/ajax/login',(req:any,res:any)=>{
     // req.session.user =user;
     // req.session.save();
     // res.redirect('/')
@@ -135,9 +135,13 @@ app.post('/login',(req:any,res:any)=>{
         let query = 'SELECT * FROM users WHERE email = ? AND password = ?';
         let user = [body.email,crypto.createHash('md5').update(body.password).digest("hex")];
         tempCont.query(query, user, (err,rows)=> {
-            if(err) throw err;
-            req.session.user = rows[0];
-            res.redirect(body.redirect);
+            if(!rows.length) {
+                res.json({errors:"Incorrect login or password"})
+            }else{
+                req.session.user = rows[0];
+                //res.redirect(body.redirect);
+                res.json(rows[0])
+            }
         });
     });
 });
@@ -167,7 +171,7 @@ app.get('/admin/login',(req:any,res)=>{
     if( req.session.admin){
         return res.redirect('/admin');
     }
-    res.render('adminlogin');
+    res.render('adminlogin',{errors:""});
 });
 app.post('/admin/login',(req:any,res:any)=>{
     let body = req.body;
@@ -176,12 +180,13 @@ app.post('/admin/login',(req:any,res:any)=>{
         let query = 'SELECT * FROM users WHERE email = ? AND password = ? AND admin = 1';
         let user = [body.email,crypto.createHash('md5').update(body.password).digest("hex")];
         tempCont.query(query, user, (err,rows)=> {
-            if(err) throw err;
             if( !rows.length ){
-                res.redirect('/admin/login');
+                res.render('adminlogin',{errors:"Incorrect login or password"});
+            }else {
+                req.session.admin = rows[0];
+                res.redirect('/admin');
             }
-            req.session.admin = rows[0];
-            res.redirect('/admin');
+
         });
     });
 });

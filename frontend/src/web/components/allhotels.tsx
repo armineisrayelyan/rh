@@ -10,7 +10,6 @@ export class AllHotels extends Component<any,any>{
         xhttp.onreadystatechange = function () {
             if(this.readyState == 4 && this.status == 200){
                 self.hotelsCount = JSON.parse(this.responseText).data;
-                console.log(self.hotelsCount)
                 self.hotels = JSON.parse(this.responseText).hotels;
                 self.setState({
                     list : self.hotels

@@ -1,8 +1,38 @@
 import * as React from 'react';
 import {Component} from 'react';
 import { BrowserRouter,Route,Switch,Redirect,Link} from 'react-router-dom';
+import * as ReactDOM from 'react-dom';
 
 export class Header extends Component<any,any>{
+    handleSubmit = (e) =>{
+        e.preventDefault();
+        let data:any = new FormData(document.getElementById('loginForm') as any);
+        let q:any = {};
+        data.forEach((v,k)=>{
+            q[`${k}`] = v
+        });
+        let xhttp = new XMLHttpRequest();
+        let self = this;
+        xhttp.onreadystatechange = function () {
+            if(this.readyState == 4 && this.status == 200){
+                if(JSON.parse(this.responseText).errors){
+                    self.setState({
+                        massage : JSON.parse(this.responseText).errors
+                    })
+                }else{
+                    window.location.reload();
+                }
+            }
+        };
+        xhttp.open("POST", "/ajax/login", true);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.send(JSON.stringify(q));
+    };
+
+    state = {
+        massage: ""
+    };
+
 
     render(){
         return(
@@ -33,7 +63,7 @@ export class Header extends Component<any,any>{
                                    if((window as any).sessionUser){
                                        return <a className="ateg" href="/logout">Log out</a>
                                    }
-                                   return <a className="ateg" href="" data-toggle="modal" data-target="#LoginModal">Log in</a>
+                                   return <a className="ateg" href="" data-toggle="modal" data-target="#LoginModal" >Log in</a>
                                 })()
                             }
                         </div>
@@ -49,12 +79,12 @@ export class Header extends Component<any,any>{
                                 </div>
                                 <div className="modal-body">
 
-                                    <form className="form-horizontal"  role="form" method="post" action="/login">
+                                    <form className="form-horizontal"  role="form"  id="loginForm" onSubmit={this.handleSubmit}>
                                         <input type="hidden" name="redirect" value={window.location.href} />
                                         <div className="form-group">
                                             <label htmlFor ="email" className="control-label col-sm-4">Email or Phone</label>
                                             <div className="col-sm-12">
-                                                <input type="email" name="email" className="form-control" id="email" placeholder="Email or Phone"/>
+                                                <input type="email" name="email" className="form-control" ref="email" placeholder="Email or Phone" autoFocus={true}/>
                                             </div>
                                         </div>
                                         <div className="form-group">
@@ -63,6 +93,15 @@ export class Header extends Component<any,any>{
                                                 <input type="password" name="password" className="form-control" id="password" placeholder="Password"/>
                                             </div>
                                         </div>
+                                        {
+                                            (()=>{
+                                               if(this.state.massage != ""){
+                                                   return(
+                                                       <p style={{color:"red"}}>{this.state.massage}</p>
+                                                   )
+                                               }
+                                            })()
+                                        }
                                         <div className="row">
                                             <div className="col-sm-offset-2">
                                                 <div className="col-sm-8 logcheck">
@@ -111,26 +150,26 @@ export class Header extends Component<any,any>{
                                                 <div className="row">
                                                     <div className="col-md-6">
                                                         <div className="form-group">
-                                                            <input type="text" className="form-control" name="firstname" id="firstname" placeholder="First name"/>
+                                                            <input type="text" className="form-control" name="firstname" id="firstname" placeholder="First name" required/>
                                                         </div>
                                                     </div>
                                                     <div className="col-md-6">
                                                         <div className="form-group">
-                                                            <input type="text" className="form-control" name="lastname" id="lastname" placeholder="Last name"/>
+                                                            <input type="text" className="form-control" name="lastname" id="lastname" placeholder="Last name" required/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <div className="form-group">
-                                                            <input type="email" className="form-control bord" name="email" id="regemail" placeholder="Mobile number or email"/>
+                                                            <input type="email" className="form-control bord" name="email" id="regemail" placeholder="Mobile number or email" required />
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <div className="form-group">
-                                                            <input type="password" className="form-control bord" name="password" id="regpassword" placeholder="Password"/>
+                                                            <input type="password" className="form-control bord" name="password" id="regpassword" placeholder="Password" required/>
                                                         </div>
                                                     </div>
                                                 </div>
