@@ -28,9 +28,30 @@ export class Header extends Component<any,any>{
         xhttp.setRequestHeader("Content-type", "application/json");
         xhttp.send(JSON.stringify(q));
     };
+    handleRegSubmit = (e) =>{
+        e.preventDefault();
+        let inputs = document.querySelector('#regsubmit')
+            .querySelectorAll('[name]') as any;
+        let obj = {};
+        inputs.forEach(function (element:any) {
+            if(element.value == ""){
+                obj[element.getAttribute('name')] = "absent";
+
+            }
+        });
+        this.setState({
+            errors : obj
+        })
+    };
 
     state = {
-        massage: ""
+        massage: "",
+        errors: {
+            firstname: "",
+            lastname: "",
+            email: "",
+            password: ""
+        }
     };
 
 
@@ -84,7 +105,7 @@ export class Header extends Component<any,any>{
                                         <div className="form-group">
                                             <label htmlFor ="email" className="control-label col-sm-4">Email or Phone</label>
                                             <div className="col-sm-12">
-                                                <input type="email" name="email" className="form-control" ref="email" placeholder="Email or Phone" autoFocus={true}/>
+                                                <input type="email" name="email" className="form-control" id="email" placeholder="Email or Phone" autoFocus={true}/>
                                             </div>
                                         </div>
                                         <div className="form-group">
@@ -142,7 +163,7 @@ export class Header extends Component<any,any>{
                                     <button type="button" className="close" data-dismiss="modal">&times;</button>
                                     <h4 className="modal-title">Registration</h4>
                                 </div>
-                                <form method="post" action="/registration"  id="regsubmit">
+                                <form method="post" action="/registration"  id="regsubmit" onSubmit={this.handleRegSubmit}>
                                     <div className="modal-body" >
 
                                         <div className="row">
@@ -150,27 +171,40 @@ export class Header extends Component<any,any>{
                                                 <div className="row">
                                                     <div className="col-md-6">
                                                         <div className="form-group">
-                                                            <input type="text" className="form-control" name="firstname" id="firstname" placeholder="First name" required/>
+                                                            <input type="text" className="form-control" name="firstname"  placeholder="First name" style={this.state.errors.firstname == 'absent' ? {borderColor:"red"} : {}}/>
                                                         </div>
                                                     </div>
                                                     <div className="col-md-6">
                                                         <div className="form-group">
-                                                            <input type="text" className="form-control" name="lastname" id="lastname" placeholder="Last name" required/>
+                                                            <input type="text" className="form-control" name="lastname"  placeholder="Last name" style={this.state.errors.lastname == 'absent' ? {borderColor:"red"} : {}}/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <div className="form-group">
-                                                            <input type="email" className="form-control bord" name="email" id="regemail" placeholder="Mobile number or email" required />
+                                                            <input type="email" className="form-control bord" name="email"  placeholder="Mobile number or email" style={this.state.errors.email == 'absent' ? {borderColor:"red"} : {}}/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <div className="form-group">
-                                                            <input type="password" className="form-control bord" name="password" id="regpassword" placeholder="Password" required/>
+                                                            <input type="password" className="form-control bord" name="password" placeholder="Password" style={this.state.errors.password == 'absent' ? {borderColor:"red"} : {}}/>
                                                         </div>
+                                                        {
+                                                            (()=>{
+                                                                let key:string;
+                                                                let errors = this.state.errors;
+                                                                for (key in errors){
+                                                                    if(errors[key] == 'absent'){
+                                                                        return (
+                                                                            <div style={{color:"red"}}>Please fill in this fields</div>
+                                                                        )
+                                                                    }
+                                                                }
+                                                            })()
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>
