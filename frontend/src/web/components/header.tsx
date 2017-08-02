@@ -30,18 +30,41 @@ export class Header extends Component<any,any>{
     };
     handleRegSubmit = (e) =>{
         e.preventDefault();
-        let inputs = document.querySelector('#regsubmit')
+        let inputs = document.querySelector('#regForm')
             .querySelectorAll('[name]') as any;
         let obj = {};
         inputs.forEach(function (element:any) {
             if(element.value == ""){
                 obj[element.getAttribute('name')] = "absent";
-
+            }else{
+                obj[element.getAttribute('name')] = element.value;
             }
         });
         this.setState({
             errors : obj
-        })
+        });
+        let size:number = 0;
+        for(let key in obj){
+            if(obj[key] == "absent"){
+                break;
+            }
+            size++;
+            if(size == 4){
+                let xhttp = new XMLHttpRequest();
+                let self = this;
+                xhttp.onreadystatechange = function () {
+                    if(this.readyState == 4 && this.status == 200){
+                        (window as any).$('#RegistrationModal').modal('hide');
+                        (window as any).$('#LoginModal').modal('show');
+                    }
+                };
+                xhttp.open("POST", "/ajax/registration", true);
+                xhttp.setRequestHeader("Content-type", "application/json");
+                xhttp.send(JSON.stringify(obj));
+            }
+
+        }
+
     };
 
     state = {
@@ -101,7 +124,6 @@ export class Header extends Component<any,any>{
                                 <div className="modal-body">
 
                                     <form className="form-horizontal"  role="form"  id="loginForm" onSubmit={this.handleSubmit}>
-                                        <input type="hidden" name="redirect" value={window.location.href} />
                                         <div className="form-group">
                                             <label htmlFor ="email" className="control-label col-sm-4">Email or Phone</label>
                                             <div className="col-sm-12">
@@ -163,7 +185,7 @@ export class Header extends Component<any,any>{
                                     <button type="button" className="close" data-dismiss="modal">&times;</button>
                                     <h4 className="modal-title">Registration</h4>
                                 </div>
-                                <form method="post" action="/registration"  id="regsubmit" onSubmit={this.handleRegSubmit}>
+                                <form id="regForm" onSubmit={this.handleRegSubmit}>
                                     <div className="modal-body" >
 
                                         <div className="row">

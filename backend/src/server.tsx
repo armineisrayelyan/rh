@@ -139,14 +139,13 @@ app.post('/ajax/login',(req:any,res:any)=>{
                 res.json({errors:"Incorrect login or password"})
             }else{
                 req.session.user = rows[0];
-                //res.redirect(body.redirect);
                 res.json(rows[0])
             }
         });
     });
 });
 
-app.post('/registration',(req,res)=>{
+app.post('/ajax/registration',(req,res)=>{
     let body = req.body;
     con.getConnection((err, tempCont)=> {
         if(err) throw  err;
@@ -156,7 +155,7 @@ app.post('/registration',(req,res)=>{
                 tempCont.release();
                 if(err) throw err;
                 else {
-                    res.redirect("/");
+                    res.json({success:true});
                 }
             });
         }
