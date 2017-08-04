@@ -39,12 +39,13 @@ app.get('/ajax/data', (req:any, res)=>{
         if(err) throw err;
         else {
             console.log('Connected!');
-            tempCont.query('SELECT * FROM hotels',(err,data)=>{
+            tempCont.query('SELECT COUNT(*) as total FROM hotels',(err,result)=>{
                 if(err) throw err;
                 tempCont.query('SELECT * FROM hotels order by updated desc limit 6',(err,rows)=>{
                     if(err) throw err;
                     else {
-                        res.json({data:data,hotels:rows});
+                        let r = result[0] || {};
+                        res.json({total:r.total,hotels:rows});
                     }
                 })
             });

@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Component} from 'react';
 import { BrowserRouter,Route,Switch,Redirect,Link} from 'react-router-dom';
 import {UTILS} from "../utils";
+import {InfiniteScroll} from "../helpers/scroller";
 
 export class AllHotels extends Component<any,any>{
     componentDidMount(){
@@ -9,8 +10,9 @@ export class AllHotels extends Component<any,any>{
         let self = this;
         xhttp.onreadystatechange = function () {
             if(this.readyState == 4 && this.status == 200){
-                self.hotelsCount = JSON.parse(this.responseText).data;
-                self.hotels = JSON.parse(this.responseText).hotels;
+                let result = JSON.parse(this.responseText);
+                self.hotelsCount = result.total;
+                self.hotels = result.hotels;
                 self.setState({
                     list : self.hotels
                 })
@@ -20,11 +22,11 @@ export class AllHotels extends Component<any,any>{
         xhttp.send();
     }
     private hotels = [];
-    private hotelsCount = [];
+    private hotelsCount = 0;
     state = {
         list : []
     };
-    handleClick = () =>{
+    handleNext = () =>{
         let xhttp = new XMLHttpRequest();
         let self = this;
         let skip = self.state.list.length;
@@ -43,7 +45,14 @@ export class AllHotels extends Component<any,any>{
     render(){
         return(
             <div className="container home">
-                <div className="row">
+
+                <InfiniteScroll
+                    next={this.handleNext}
+                    hasMore={this.state.list.length < this.hotelsCount}
+                    loader={'Loading...'}
+                >
+                {
+                    <div className="row">
                         {
                             this.state.list.map((item,i)=>{
                                 return(
@@ -60,18 +69,10 @@ export class AllHotels extends Component<any,any>{
                                 )
                             })
                         }
-                </div>
-                {
-                    (()=>{
-                       if(this.state.list.length < this.hotelsCount.length){
-                           return(
-                                <div className="row">
-                                    <button className="col-sm-offset-6 btn btn-info" onClick={this.handleClick}>see more >></button>
-                                </div>
-                           )
-                       }
-                    })()
+                    </div>
                 }
+                </InfiniteScroll>
+
 
             </div>
         )
