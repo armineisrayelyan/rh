@@ -183,3 +183,13 @@
     text-align: right;
     color: blue;
 }
+
+@media screen and (min-width:501px) and (max-width:999px) {
+    .truncate {
+        width: 208px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+}

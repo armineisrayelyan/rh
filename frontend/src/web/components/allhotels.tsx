@@ -57,7 +57,7 @@ export class AllHotels extends Component<any,any>{
                             this.state.list.map((item,i)=>{
                                 return(
                                     <div key={item.id || i} className="col-sm-4">
-                                        <h3 className="title">
+                                        <h3 className="title truncate">
                                             {UTILS.normalizeText(item.name)}
                                         </h3>
                                         <Link to={`/detail/${item.id}`} className="thumbnail">
